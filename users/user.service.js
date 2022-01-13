@@ -13,13 +13,14 @@ async function authenticate({ username, password }) {
     const user = users.find(u => u.username === username && u.password === password);
 
     if (!user) throw 'Username or password is incorrect';
-
+    const expiresIn = 30;
     // create a jwt token that is valid for 7 days
-    const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '7d' });
+    const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn:  expiresIn});
 
     return {
         ...omitPassword(user),
-        token
+        token,
+        expiresIn
     };
 }
 
